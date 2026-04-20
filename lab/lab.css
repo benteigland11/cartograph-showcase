@@ -211,3 +211,12 @@
   --ts-scrambled-opacity: 0.85;
   cursor: pointer;
 }
+
+.heatmap-stage {
+  width: 100%;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --hm-cell: 10px;
+}

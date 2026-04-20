@@ -8,6 +8,7 @@ import { createGraphViewer } from '../cg/frontend-graph-viewer-javascript/src/gr
 import { defineSpringDrag } from '../cg/frontend-spring-drag-javascript/src/spring_drag.js'
 import { defineMagneticButton } from '../cg/frontend-magnetic-button-javascript/src/magnetic_button.js'
 import { defineTextScramble } from '../cg/frontend-text-scramble-javascript/src/text_scramble.js'
+import { defineActivityHeatmap } from '../cg/frontend-activity-heatmap-javascript/src/activity_heatmap.js'
 
 applyTokens({
   overrides: {
@@ -33,6 +34,7 @@ defineMarquee('marquee-row')
 defineSpringDrag('spring-drag')
 defineMagneticButton('magnetic-button')
 defineTextScramble('text-scramble')
+defineActivityHeatmap('activity-heatmap')
 
 const grid = document.getElementById('lab-grid')
 
@@ -129,7 +131,14 @@ const scramblePanel = panel({
 })
 grid.appendChild(scramblePanel)
 
-document.getElementById('composed-count').textContent = '9'
+const heatmapPanel = panel({
+  id: 'frontend-activity-heatmap-javascript',
+  desc: 'Hover a cell. GitHub-grid energy.',
+  stageHtml: `<div class="heatmap-stage"><activity-heatmap id="heatmap" weeks="34"></activity-heatmap></div>`,
+})
+grid.appendChild(heatmapPanel)
+
+document.getElementById('composed-count').textContent = '10'
 
 requestAnimationFrame(() => {
   const target = document.getElementById('scramble-target')
@@ -140,6 +149,22 @@ requestAnimationFrame(() => {
     i = (i + 1) % phrases.length
     target.play(phrases[i])
   })
+
+  const heatmap = document.getElementById('heatmap')
+  if (heatmap) {
+    const today = new Date()
+    const data = []
+    for (let d = 0; d < 34 * 7; d++) {
+      const day = new Date(today)
+      day.setDate(today.getDate() - d)
+      const seed = Math.sin((d + 1) * 12.9898) * 43758.5453
+      const r = seed - Math.floor(seed)
+      const r2 = (Math.sin((d + 7) * 78.233) * 43758.5453)
+      const r3 = r2 - Math.floor(r2)
+      if (r > 0.45) data.push({ date: day.toISOString().slice(0, 10), count: Math.ceil(r3 * 8) })
+    }
+    heatmap.data = data
+  }
 })
 
 requestAnimationFrame(() => {
