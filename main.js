@@ -61,11 +61,11 @@ main.innerHTML = `
       autoplay
       speed="28"
       lines='[
-        {"prompt":"$ ","text":"cartograph search retry","delay":600},
-        {"output":"  universal-retry-backoff-python    ★ 4.8  · exponential backoff with jitter"},
-        {"output":"  universal-retry-policy-javascript ★ 4.6  · pluggable retry policies","delay":500},
-        {"prompt":"$ ","text":"cartograph install universal-retry-backoff-python","delay":400},
-        {"output":"✓ installed → cg/universal-retry-backoff-python  (v1.2.0)"}
+        {"prompt":"$ ","text":"cartograph search oauth pkce","delay":600},
+        {"output":"  security-oauth-pkce-javascript     · WebCrypto PKCE helpers for browsers"},
+        {"output":"  universal-oauth-pkce-python        · Headless PKCE for native + loopback","delay":500},
+        {"prompt":"$ ","text":"cartograph install security-oauth-pkce-javascript","delay":400},
+        {"output":"✓ installed → cg/security-oauth-pkce-javascript  (v1.0.0)"}
       ]'
     ></terminal-mock>
   </hero-section>
@@ -76,23 +76,23 @@ main.innerHTML = `
   <section id="why" class="bounded">
     <p class="section-eyebrow" data-reveal>The problem</p>
     <h2 class="section-title" data-reveal style="--reveal-delay: 60ms">Same code, different repos.</h2>
-    <p class="section-lede" data-reveal style="--reveal-delay: 120ms">You wrote that retry helper. Or the env loader. Or the timestamp parser. Three times this quarter, in three projects. Each copy drifts. Each copy hides the same bug. None know about the others.</p>
+    <p class="section-lede" data-reveal style="--reveal-delay: 120ms">You wrote that PKCE flow. Or the JWT verifier. Or the webhook signature checker. Three times this year, in three projects. Each copy drifts. Each copy hides the same bug. None know about the others.</p>
 
     <div class="comparison" data-reveal style="--reveal-delay: 180ms">
       <div class="comparison-side">
         <p class="comparison-label">Without</p>
-        <code-block lang="shell" code="$ grep -r 'def retry' ~/projects
-project-a/utils.py:    def retry(fn, n=3):
-project-b/lib/net.py:  def retry_call(...):
-project-c/helpers.py:  def with_backoff(...):
+        <code-block lang="shell" code="$ grep -r 'pkce' ~/projects
+project-a/auth.js:    generateCodeVerifier(...)
+project-b/oauth/flow.ts: createPkceChallenge(...)
+project-c/helpers/auth.js: makeS256(...)
 $ # three implementations. zero shared fixes."></code-block>
       </div>
       <div class="comparison-side">
         <p class="comparison-label">With Cartograph</p>
-        <code-block lang="shell" code="$ cartograph search retry
-  universal-retry-backoff-python  ★ 4.8  · 1.2k installs
-$ cartograph install universal-retry-backoff-python
-✓ installed → cg/universal-retry-backoff-python  (v1.2.0)"></code-block>
+        <code-block lang="shell" code="$ cartograph search oauth pkce
+  security-oauth-pkce-javascript  · WebCrypto PKCE helpers
+$ cartograph install security-oauth-pkce-javascript
+✓ installed → cg/security-oauth-pkce-javascript  (v1.0.0)"></code-block>
       </div>
     </div>
   </section>
