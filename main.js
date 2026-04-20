@@ -49,7 +49,7 @@ const main = document.getElementById('top')
 main.innerHTML = `
   <div class="hero-stage" data-spotlight>
   <hero-section layout="split">
-    <span slot="eyebrow">Cartograph · v1.0</span>
+    <span slot="eyebrow" id="hero-eyebrow">Cartograph · on PyPI</span>
     <span slot="headline">Code worth keeping. Write it once, iterate.</span>
     <span slot="subhead">A widget library manager for the code you actually want to reuse. Extract it once, version every change, share across every project.</span>
     <a slot="primary" class="btn btn-primary" href="https://github.com/benteigland11/Cartograph">Get started →</a>
@@ -221,6 +221,16 @@ search.addEventListener('widget-selected', (e) => {
   detailSlot.hidden = false
   card.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 })
+
+;(async () => {
+  try {
+    const res = await fetch('https://pypi.org/pypi/cartograph-cli/json')
+    if (!res.ok) return
+    const data = await res.json()
+    const v = data?.info?.version
+    if (v) document.getElementById('hero-eyebrow').textContent = `cartograph-cli · v${v} on PyPI`
+  } catch {}
+})()
 
 initScrollReveal()
 attachSpotlightAll('[data-spotlight]', { unit: 'px' })
