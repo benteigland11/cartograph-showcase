@@ -2,7 +2,7 @@
   "meta": {
     "id": "frontend-stats-counter-javascript",
     "name": "Stats Counter",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "domain": "frontend",
     "tags": [
       "counter",
@@ -27,7 +27,7 @@
   },
   "validation": {
     "engine_version": 1,
-    "validated_at": "2026-04-20T01:31:52.338853+00:00",
+    "validated_at": "2026-04-20T03:38:30.577464+00:00",
     "runtime": "node 22.22.0"
   }
 }

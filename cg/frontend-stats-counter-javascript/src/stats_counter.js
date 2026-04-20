@@ -95,18 +95,18 @@ export class StatsCounter extends HTMLElement {
   }
 
   attributeChangedCallback(name) {
-    if (name === 'target') this._render(this.target)
+    if (name !== 'target') return
+    if (this._raf == null) this._render(this.target)
   }
 
   play() {
     if (this._raf != null) cancelAnimationFrame(this._raf)
     const start = performance.now()
-    const target = this.target
     const duration = this.duration
     const ease = this.easing
     const tick = (now) => {
       const t = Math.min(1, (now - start) / duration)
-      const value = target * ease(t)
+      const value = this.target * ease(t)
       this._render(value)
       if (t < 1) this._raf = requestAnimationFrame(tick)
       else { this._raf = null; this.dispatchEvent(new CustomEvent('counter-complete', { bubbles: true, composed: true })) }
