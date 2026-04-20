@@ -177,6 +177,11 @@ section.bounded > * {
   --spotlight-size: 480px;
 }
 
+hero-section {
+  --hero-eyebrow-bg: rgba(255, 195, 0, 0.08);
+  --hero-eyebrow-border: rgba(255, 195, 0, 0.2);
+}
+
 terminal-mock {
   --tm-min-height: clamp(10rem, 28vw, 14rem);
 }

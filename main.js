@@ -25,7 +25,7 @@ injectRevealStyles()
 injectSpotlightStyles()
 
 applyMetaTags({
-  title: 'Cartograph — code worth keeping',
+  title: 'Cartograph: code worth keeping',
   description: 'Code worth keeping. Write it once, iterate. A widget library manager for the code you actually want to reuse.',
   url: 'https://benteigland11.github.io/cartograph-showcase/',
   image: 'https://benteigland11.github.io/cartograph-showcase/og.png',
@@ -139,7 +139,7 @@ $ # done. import it from cg/ and ship."
   <section id="composed" class="bounded">
     <p class="section-eyebrow" data-reveal>Composed of</p>
     <h2 class="section-title" data-reveal style="--reveal-delay: 60ms">This site is its own demo.</h2>
-    <p class="section-lede" data-reveal style="--reveal-delay: 120ms">Every section above was assembled from the widgets below — installed, not written from scratch. Click through to install any of them.</p>
+    <p class="section-lede" data-reveal style="--reveal-delay: 120ms">Every section above was assembled from the widgets below: installed, not written from scratch. Click through to install any of them.</p>
     <ul class="composed-list" data-reveal style="--reveal-delay: 180ms" id="composed-list"></ul>
   </section>
 `
@@ -147,9 +147,9 @@ $ # done. import it from cg/ and ship."
 const grid = main.querySelector('feature-grid')
 const features = [
   { icon: '⌕', title: 'Search', body: 'Find widgets by query, domain, or language. Filter the catalog before installing anything.' },
-  { icon: '↓', title: 'Install', body: 'One command lands the widget in cg/, fully self-contained — code, tests, examples, metadata.' },
+  { icon: '↓', title: 'Install', body: 'One command lands the widget in cg/, fully self-contained: code, tests, examples, metadata.' },
   { icon: '✓', title: 'Validate', body: 'Tests, contamination scan, coverage gate. A widget is either valid or it does not check in.' },
-  { icon: '⇡', title: 'Version', body: 'Semver bumps via bump flag. Cartograph manages the version field — you never hand-edit it.' },
+  { icon: '⇡', title: 'Version', body: 'Semver bumps via bump flag. Cartograph manages the version field. You never hand-edit it.' },
   { icon: '☁', title: 'Publish', body: 'Push to the cloud registry with one command. Public or private, governed or open.' },
   { icon: '⇄', title: 'Share', body: 'Adopt, propose, sync. Widgets evolve through pull-request-style proposals across teams.' },
 ]
@@ -211,7 +211,7 @@ search.addEventListener('widget-selected', (e) => {
     card = document.createElement('widget-detail-card')
     card.addEventListener('detail-close', () => { detailSlot.hidden = true })
     card.addEventListener('install-copied', (ev) => {
-      showToast(ev.detail.ok ? 'Install command copied' : 'Copy blocked — run it manually', {
+      showToast(ev.detail.ok ? 'Install command copied' : 'Copy blocked. Run it manually.', {
         variant: ev.detail.ok ? 'success' : 'error',
       })
     })

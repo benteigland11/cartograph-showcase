@@ -7,7 +7,7 @@ A live demo of [Cartograph](https://github.com/benteigland11/Cartograph). Every 
 ## Local development
 
 ```bash
-# Serve statically — no build step
+# Serve statically. No build step.
 python3 -m http.server 8000
 # open http://localhost:8000
 ```

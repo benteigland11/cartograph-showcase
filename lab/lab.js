@@ -19,7 +19,7 @@ applyTokens({
 })
 
 applyMetaTags({
-  title: 'Cartograph Lab — wait, that\'s a widget?',
+  title: 'Cartograph Lab: wait, that\'s a widget?',
   description: 'A wall of demos that look bespoke but are really just installable widgets.',
   url: 'https://benteigland11.github.io/cartograph-showcase/lab/',
   image: 'https://benteigland11.github.io/cartograph-showcase/og.png',
@@ -57,7 +57,7 @@ const tiltPanel = panel({
       <div class="tilt-content">
         <span class="glyph">◆</span>
         <h3>Hover me</h3>
-        <p>This card doesn't know about tilt — it's wrapped.</p>
+        <p>This card doesn't know about tilt. It's wrapped.</p>
       </div>
     </tilt-card>
   `,

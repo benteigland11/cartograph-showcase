@@ -14,7 +14,7 @@ applyTokens({
 injectRevealStyles()
 
 applyMetaTags({
-  title: 'About Cartograph — code worth keeping',
+  title: 'About Cartograph: code worth keeping',
   description: 'Why Cartograph exists: the pattern of reusable code that never escapes its origin repo, and what to do about it.',
   url: 'https://benteigland11.github.io/cartograph-showcase/about/',
   image: 'https://benteigland11.github.io/cartograph-showcase/og.png',
