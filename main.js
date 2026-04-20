@@ -13,6 +13,9 @@ import { defineWidgetDetailCard } from './cg/frontend-widget-detail-card-javascr
 import { showToast } from './cg/frontend-toast-javascript/src/toast.js'
 import { defineStatsCounter } from './cg/frontend-stats-counter-javascript/src/stats_counter.js'
 import { markReady } from './cg/frontend-page-load-fade-javascript/src/page_load_fade.js'
+import { createCartographRegistryClient } from './cg/data-cartograph-registry-client-javascript/src/cartograph_registry_client.js'
+
+const registry = createCartographRegistryClient()
 
 applyTokens({
   overrides: {
@@ -88,6 +91,10 @@ main.innerHTML = `
         <stats-counter id="stat-installs" target="0" duration="1800"></stats-counter>
         <span class="stat-label">total installs</span>
       </div>
+    </div>
+    <div class="freshest" data-reveal hidden>
+      <p class="freshest-label">Fresh from the registry</p>
+      <div class="freshest-list" id="freshest-list"></div>
     </div>
   </section>
 
@@ -209,12 +216,7 @@ const detailSlot = document.getElementById('detail-slot')
 const lastResults = new Map()
 
 search.fetcher = async (query, signal) => {
-  const url = new URL('https://api.cartograph.tools/v1/widgets/search')
-  url.searchParams.set('q', query)
-  const res = await fetch(url, { signal })
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
-  const data = await res.json()
-  const widgets = data.widgets ?? []
+  const widgets = await registry.searchWidgets(query, { signal })
   lastResults.clear()
   for (const w of widgets) lastResults.set(w.id, w)
   return widgets
@@ -253,27 +255,37 @@ search.addEventListener('widget-selected', (e) => {
 })()
 
 ;(async () => {
-  const queries = ['cartograph', 'widget', 'frontend', 'backend', 'universal', 'data', 'ml', 'security']
-  const seen = new Map()
-  const owners = new Set()
-  let totalInstalls = 0
-  const results = await Promise.all(queries.map((q) =>
-    fetch(`https://api.cartograph.tools/v1/widgets/search?q=${encodeURIComponent(q)}`)
-      .then((r) => r.ok ? r.json() : { widgets: [] })
-      .catch(() => ({ widgets: [] }))
-  ))
-  for (const r of results) {
-    for (const w of r.widgets ?? []) {
-      if (seen.has(w.id)) continue
-      seen.set(w.id, w)
-      if (w.owner) owners.add(w.owner)
-      if (w.install_count) totalInstalls += w.install_count
-    }
+  try {
+    const stats = await registry.getRegistryStats()
+    document.getElementById('stat-widgets').target = stats.total_widgets ?? 0
+    document.getElementById('stat-owners').target = stats.total_owners ?? 0
+    document.getElementById('stat-installs').target = stats.total_installs ?? 0
+    renderFreshest(stats.freshest ?? [])
+  } catch (err) {
+    console.error('registry stats fetch failed', err)
   }
-  document.getElementById('stat-widgets').target = seen.size
-  document.getElementById('stat-owners').target = owners.size
-  document.getElementById('stat-installs').target = totalInstalls
 })()
+
+function renderFreshest(items) {
+  const slot = document.getElementById('freshest-list')
+  if (!slot || items.length === 0) return
+  const top = items.slice(0, 3)
+  slot.innerHTML = top.map((w) => `
+    <button class="freshest-card" type="button" data-id="${w.namespaced_id}">
+      <span class="freshest-id">${w.namespaced_id}</span>
+      <span class="freshest-meta">${w.language ?? ''} · fresh</span>
+    </button>
+  `).join('')
+  slot.parentElement.hidden = false
+  for (const w of top) lastResults.set(w.namespaced_id, w)
+  slot.addEventListener('click', (e) => {
+    const btn = e.target.closest('.freshest-card')
+    if (!btn) return
+    search.dispatchEvent(new CustomEvent('widget-selected', {
+      detail: { id: btn.dataset.id, source: btn },
+    }))
+  })
+}
 
 initScrollReveal()
 attachSpotlightAll('[data-spotlight]', { unit: 'px' })
