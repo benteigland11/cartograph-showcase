@@ -134,7 +134,7 @@ grid.appendChild(scramblePanel)
 const heatmapPanel = panel({
   id: 'frontend-activity-heatmap-javascript',
   desc: 'Hover a cell. GitHub-grid energy.',
-  stageHtml: `<div class="heatmap-stage"><activity-heatmap id="heatmap" weeks="34"></activity-heatmap></div>`,
+  stageHtml: `<div class="heatmap-stage"><activity-heatmap id="heatmap" weeks="22"></activity-heatmap></div>`,
 })
 grid.appendChild(heatmapPanel)
 
@@ -154,7 +154,7 @@ requestAnimationFrame(() => {
   if (heatmap) {
     const today = new Date()
     const data = []
-    for (let d = 0; d < 34 * 7; d++) {
+    for (let d = 0; d < 22 * 7; d++) {
       const day = new Date(today)
       day.setDate(today.getDate() - d)
       const seed = Math.sin((d + 1) * 12.9898) * 43758.5453
