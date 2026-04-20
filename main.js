@@ -11,6 +11,8 @@ import { attachSpotlightAll, injectSpotlightStyles } from './cg/frontend-cursor-
 import { defineWidgetSearch } from './cg/frontend-widget-search-javascript/src/widget_search.js'
 import { defineWidgetDetailCard } from './cg/frontend-widget-detail-card-javascript/src/widget_detail_card.js'
 import { showToast } from './cg/frontend-toast-javascript/src/toast.js'
+import { defineStatsCounter } from './cg/frontend-stats-counter-javascript/src/stats_counter.js'
+import { markReady } from './cg/frontend-page-load-fade-javascript/src/page_load_fade.js'
 
 applyTokens({
   overrides: {
@@ -43,6 +45,7 @@ defineCodeBlock('code-block')
 defineTerminalMock('terminal-mock')
 defineWidgetSearch('widget-search')
 defineWidgetDetailCard('widget-detail-card')
+defineStatsCounter('stats-counter')
 
 const main = document.getElementById('top')
 
@@ -70,6 +73,23 @@ main.innerHTML = `
     ></terminal-mock>
   </hero-section>
   </div>
+
+  <section id="stats" class="stats-strip">
+    <div class="stats-row" data-reveal>
+      <div class="stat">
+        <stats-counter id="stat-widgets" target="0" duration="1800"></stats-counter>
+        <span class="stat-label">widgets in the registry</span>
+      </div>
+      <div class="stat">
+        <stats-counter id="stat-owners" target="0" duration="1800"></stats-counter>
+        <span class="stat-label">owners contributing</span>
+      </div>
+      <div class="stat">
+        <stats-counter id="stat-installs" target="0" duration="1800"></stats-counter>
+        <span class="stat-label">total installs</span>
+      </div>
+    </div>
+  </section>
 
   <hr class="divider" />
 
@@ -232,6 +252,29 @@ search.addEventListener('widget-selected', (e) => {
   } catch {}
 })()
 
+;(async () => {
+  const queries = ['cartograph', 'widget', 'frontend', 'backend', 'universal', 'data', 'ml', 'security']
+  const seen = new Map()
+  const owners = new Set()
+  let totalInstalls = 0
+  const results = await Promise.all(queries.map((q) =>
+    fetch(`https://api.cartograph.tools/v1/widgets/search?q=${encodeURIComponent(q)}`)
+      .then((r) => r.ok ? r.json() : { widgets: [] })
+      .catch(() => ({ widgets: [] }))
+  ))
+  for (const r of results) {
+    for (const w of r.widgets ?? []) {
+      if (seen.has(w.id)) continue
+      seen.set(w.id, w)
+      if (w.owner) owners.add(w.owner)
+      if (w.install_count) totalInstalls += w.install_count
+    }
+  }
+  document.getElementById('stat-widgets').target = seen.size
+  document.getElementById('stat-owners').target = owners.size
+  document.getElementById('stat-installs').target = totalInstalls
+})()
+
 initScrollReveal()
 attachSpotlightAll('[data-spotlight]', { unit: 'px' })
-document.body.classList.add('is-ready')
+markReady()
