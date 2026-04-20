@@ -45,12 +45,15 @@
   font-weight: 600;
 }
 
-.about-article a {
+.about-article a:not(.btn) {
   color: var(--color-accent);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
+
+.about-cta .btn-primary { color: var(--color-bg); }
+.about-cta .btn-secondary { color: var(--color-fg); }
 
 .about-article code {
   font-family: var(--font-mono);
