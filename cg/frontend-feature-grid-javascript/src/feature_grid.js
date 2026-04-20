@@ -5,7 +5,10 @@ const GRID_STYLES = `
     display: grid;
     grid-template-columns: repeat(var(--fg-cols, 3), minmax(0, 1fr));
     gap: var(--fg-gap, 1.5rem);
+    align-items: stretch;
   }
+  slot { display: contents; }
+  ::slotted(*) { min-width: 0; }
   @media (max-width: 900px) { div { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 560px) { div { grid-template-columns: minmax(0, 1fr); } }
 `
