@@ -2,7 +2,7 @@
   "meta": {
     "id": "frontend-nav-bar-javascript",
     "name": "Nav Bar",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "domain": "frontend",
     "tags": [
       "navigation",
@@ -27,7 +27,7 @@
   },
   "validation": {
     "engine_version": 1,
-    "validated_at": "2026-04-19T23:38:42.070636+00:00",
+    "validated_at": "2026-04-20T00:43:52.516411+00:00",
     "runtime": "node 22.22.0"
   }
 }

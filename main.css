@@ -24,7 +24,7 @@ a:hover { color: var(--color-accent-strong); }
 main { display: block; }
 
 section {
-  padding: var(--space-16) var(--space-6);
+  padding: clamp(var(--space-12), 8vw, var(--space-16)) clamp(var(--space-4), 5vw, var(--space-6));
 }
 
 section.bounded > * {
@@ -131,7 +131,7 @@ section.bounded > * {
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
   gap: var(--space-3);
 }
 
@@ -181,5 +181,19 @@ section.bounded > * {
   overflow: hidden;
   --spotlight-color: rgba(255, 195, 0, 0.14);
   --spotlight-size: 480px;
+}
+
+terminal-mock {
+  --tm-min-height: clamp(10rem, 28vw, 14rem);
+}
+
+@media (max-width: 720px) {
+  .section-title { font-size: clamp(var(--size-xl), 7vw, var(--size-2xl)); }
+  .section-lede { font-size: var(--size-base); margin-bottom: var(--space-8); }
+  .btn { padding: 0.7rem 1rem; }
+}
+
+@media (max-width: 480px) {
+  .btn { width: 100%; justify-content: center; }
 }
 

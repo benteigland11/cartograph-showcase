@@ -46,7 +46,13 @@ const STYLES = `
     align-items: center;
     gap: var(--nav-link-gap, 1.5rem);
   }
-  ::slotted(a) {
+  slot[name="links"] {
+    display: flex;
+    align-items: center;
+    gap: var(--nav-link-gap, 1.5rem);
+    flex-wrap: wrap;
+  }
+  ::slotted(a), ::slotted(span) > a {
     color: var(--nav-link-fg, #b8bec8);
     text-decoration: none;
     font-size: 0.92rem;
@@ -71,7 +77,7 @@ const STYLES = `
     margin: 4px 0;
     transition: transform 200ms ease, opacity 200ms ease;
   }
-  @media (max-width: 640px) {
+  @media (max-width: 800px) {
     .toggle { display: block; }
     .links {
       position: absolute;
@@ -80,13 +86,23 @@ const STYLES = `
       flex-direction: column;
       align-items: stretch;
       gap: 0;
-      padding: 0.5rem 1.5rem 1rem;
-      background: var(--nav-bg, rgba(10, 11, 16, 0.95));
+      padding: 0.5rem 0;
+      margin: 0;
+      background: var(--nav-mobile-bg, rgba(8, 9, 13, 0.98));
+      backdrop-filter: var(--nav-backdrop, saturate(180%) blur(12px));
+      -webkit-backdrop-filter: var(--nav-backdrop, saturate(180%) blur(12px));
       border-bottom: 1px solid var(--nav-border, rgba(255, 255, 255, 0.06));
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
       transform: translateY(-8px);
       opacity: 0;
       pointer-events: none;
-      transition: transform 180ms ease, opacity 180ms ease;
+      transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), opacity 180ms ease;
+    }
+    slot[name="links"] {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      flex-wrap: nowrap;
     }
     :host([open]) .links {
       transform: translateY(0);
@@ -94,8 +110,16 @@ const STYLES = `
       pointer-events: auto;
     }
     ::slotted(a) {
-      padding: 0.75rem 0;
+      display: block;
+      padding: 0.875rem var(--nav-padding-x, 1.5rem) !important;
+      font-size: 0.95rem !important;
       border-top: 1px solid var(--nav-border, rgba(255, 255, 255, 0.06));
+    }
+    ::slotted(a:first-child) {
+      border-top: 0;
+    }
+    ::slotted(a:hover), ::slotted(a:focus-visible) {
+      background: var(--nav-mobile-hover, rgba(255, 195, 0, 0.06));
     }
   }
 `
