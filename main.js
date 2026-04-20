@@ -234,3 +234,4 @@ search.addEventListener('widget-selected', (e) => {
 
 initScrollReveal()
 attachSpotlightAll('[data-spotlight]', { unit: 'px' })
+document.body.classList.add('is-ready')

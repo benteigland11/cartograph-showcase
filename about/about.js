@@ -27,3 +27,4 @@ defineSiteFooter('site-footer')
 defineCodeBlock('code-block')
 
 initScrollReveal()
+document.body.classList.add('is-ready')

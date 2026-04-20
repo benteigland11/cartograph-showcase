@@ -228,4 +228,5 @@ requestAnimationFrame(() => {
   graph.start()
 
   window.addEventListener('resize', () => { noise.resize(); graph.resize() })
+  document.body.classList.add('is-ready')
 })
