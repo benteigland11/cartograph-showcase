@@ -175,3 +175,39 @@
   border-radius: 50%;
   background: var(--color-accent);
 }
+
+.spring-chip {
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #FFEA00, #FF9500);
+  color: #0a0b10;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.005em;
+  border-radius: 9999px;
+  box-shadow: 0 16px 40px rgba(255, 195, 0, 0.25);
+  cursor: grab;
+}
+
+.magnetic-cta {
+  display: inline-block;
+  padding: 0.85rem 1.5rem;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  box-shadow: 0 16px 40px rgba(255, 195, 0, 0.25);
+}
+
+.scramble-stage {
+  font-family: var(--font-mono);
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  color: var(--color-fg);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  width: 100%;
+  --ts-scrambled-color: var(--color-accent);
+  --ts-scrambled-opacity: 0.85;
+  cursor: pointer;
+}

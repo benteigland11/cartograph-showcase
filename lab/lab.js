@@ -5,6 +5,9 @@ import { defineTiltCard } from '../cg/frontend-tilt-card-javascript/src/tilt_car
 import { defineMarquee } from '../cg/frontend-marquee-javascript/src/marquee.js'
 import { createNoiseField } from '../cg/frontend-noise-field-javascript/src/noise_field.js'
 import { createGraphViewer } from '../cg/frontend-graph-viewer-javascript/src/graph_viewer.js'
+import { defineSpringDrag } from '../cg/frontend-spring-drag-javascript/src/spring_drag.js'
+import { defineMagneticButton } from '../cg/frontend-magnetic-button-javascript/src/magnetic_button.js'
+import { defineTextScramble } from '../cg/frontend-text-scramble-javascript/src/text_scramble.js'
 
 applyTokens({
   overrides: {
@@ -27,6 +30,9 @@ applyMetaTags({
 defineSiteNav('site-nav')
 defineTiltCard('tilt-card')
 defineMarquee('marquee-row')
+defineSpringDrag('spring-drag')
+defineMagneticButton('magnetic-button')
+defineTextScramble('text-scramble')
 
 const grid = document.getElementById('lab-grid')
 
@@ -90,7 +96,51 @@ const graphPanel = panel({
 })
 grid.appendChild(graphPanel)
 
-document.getElementById('composed-count').textContent = '6'
+const springPanel = panel({
+  id: 'frontend-spring-drag-javascript',
+  desc: 'Drag the chip. It springs back.',
+  stageHtml: `
+    <spring-drag stiffness="0.16" damping="0.78">
+      <div class="spring-chip">drag me</div>
+    </spring-drag>
+  `,
+})
+grid.appendChild(springPanel)
+
+const magneticPanel = panel({
+  id: 'frontend-magnetic-button-javascript',
+  desc: 'Approach the button. It comes to you.',
+  stageHtml: `
+    <magnetic-button radius="160" strength="0.4">
+      <a href="#" class="magnetic-cta" onclick="event.preventDefault()">Get started →</a>
+    </magnetic-button>
+  `,
+})
+grid.appendChild(magneticPanel)
+
+const scramblePanel = panel({
+  id: 'frontend-text-scramble-javascript',
+  desc: 'Hover to re-decode the text.',
+  stageHtml: `
+    <div class="scramble-stage">
+      <text-scramble id="scramble-target" autoplay speed="1.6" text="code worth keeping"></text-scramble>
+    </div>
+  `,
+})
+grid.appendChild(scramblePanel)
+
+document.getElementById('composed-count').textContent = '9'
+
+requestAnimationFrame(() => {
+  const target = document.getElementById('scramble-target')
+  if (!target) return
+  const phrases = ['code worth keeping', 'write it once, iterate', 'every piece a widget', 'compose, do not duplicate']
+  let i = 0
+  target.parentElement.addEventListener('pointerenter', () => {
+    i = (i + 1) % phrases.length
+    target.play(phrases[i])
+  })
+})
 
 requestAnimationFrame(() => {
   const noiseCanvas = document.getElementById('noise-canvas')
