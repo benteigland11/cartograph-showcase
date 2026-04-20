@@ -8,7 +8,7 @@ import { defineCodeBlock } from './cg/frontend-code-block-javascript/src/code_bl
 import { defineTerminalMock } from './cg/frontend-terminal-mock-javascript/src/terminal_mock.js'
 import { initScrollReveal, injectRevealStyles } from './cg/frontend-scroll-reveal-javascript/src/scroll_reveal.js'
 import { attachSpotlightAll, injectSpotlightStyles } from './cg/frontend-cursor-spotlight-javascript/src/cursor_spotlight.js'
-import { createParticleField } from './cg/frontend-particle-field-javascript/src/particle_field.js'
+import { defineWidgetSearch } from './cg/frontend-widget-search-javascript/src/widget_search.js'
 
 applyTokens({
   overrides: {
@@ -39,12 +39,12 @@ defineHeroSection('hero-section')
 defineFeatureGrid('feature-grid', 'feature-card')
 defineCodeBlock('code-block')
 defineTerminalMock('terminal-mock')
+defineWidgetSearch('widget-search')
 
 const main = document.getElementById('top')
 
 main.innerHTML = `
   <div class="hero-stage" data-spotlight>
-    <canvas id="hero-particles" aria-hidden="true"></canvas>
   <hero-section layout="split">
     <span slot="eyebrow">Cartograph · v1.0</span>
     <span slot="headline">Code worth keeping. Install it once.</span>
@@ -70,11 +70,47 @@ main.innerHTML = `
 
   <hr class="divider" />
 
+  <section id="why" class="bounded">
+    <p class="section-eyebrow" data-reveal>The problem</p>
+    <h2 class="section-title" data-reveal style="--reveal-delay: 60ms">Same code, different repos.</h2>
+    <p class="section-lede" data-reveal style="--reveal-delay: 120ms">You wrote that retry helper. Or the env loader. Or the timestamp parser. Three times this quarter, in three projects. Each copy drifts. Each copy hides the same bug. None know about the others.</p>
+
+    <div class="comparison" data-reveal style="--reveal-delay: 180ms">
+      <div class="comparison-side">
+        <p class="comparison-label">Without</p>
+        <code-block lang="shell" code="$ grep -r 'def retry' ~/projects
+project-a/utils.py:    def retry(fn, n=3):
+project-b/lib/net.py:  def retry_call(...):
+project-c/helpers.py:  def with_backoff(...):
+$ # three implementations. zero shared fixes."></code-block>
+      </div>
+      <div class="comparison-side">
+        <p class="comparison-label">With Cartograph</p>
+        <code-block lang="shell" code="$ cartograph search retry
+  universal-retry-backoff-python  ★ 4.8  · 1.2k installs
+$ cartograph install universal-retry-backoff-python
+✓ installed → cg/universal-retry-backoff-python  (v1.2.0)"></code-block>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
   <section id="features" class="bounded">
     <p class="section-eyebrow" data-reveal>What it does</p>
     <h2 class="section-title" data-reveal style="--reveal-delay: 60ms">Six commands, one library.</h2>
     <p class="section-lede" data-reveal style="--reveal-delay: 120ms">Every step of the widget lifecycle is a single command. No build configs, no glue scripts.</p>
     <feature-grid data-reveal style="--reveal-delay: 180ms"></feature-grid>
+  </section>
+
+  <hr class="divider" />
+
+  <section id="search" class="bounded">
+    <p class="section-eyebrow" data-reveal>Try it now</p>
+    <h2 class="section-title" data-reveal style="--reveal-delay: 60ms">Search the live registry.</h2>
+    <p class="section-lede" data-reveal style="--reveal-delay: 120ms">This input is hitting <code style="font-family: var(--font-mono); color: var(--color-accent)">api.cartograph.tools</code> in real time. Type a keyword. Click a result to copy its install command.</p>
+    <widget-search data-reveal style="--reveal-delay: 180ms" id="live-search"></widget-search>
+    <p class="search-hint" id="search-hint" data-reveal style="--reveal-delay: 240ms" hidden></p>
   </section>
 
   <hr class="divider" />
@@ -145,17 +181,27 @@ for (const id of widgetIds) {
   composed.appendChild(li)
 }
 
+const search = document.getElementById('live-search')
+const searchHint = document.getElementById('search-hint')
+search.fetcher = async (query, signal) => {
+  const url = new URL('https://api.cartograph.tools/v1/widgets/search')
+  url.searchParams.set('q', query)
+  const res = await fetch(url, { signal })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  const data = await res.json()
+  return data.widgets ?? []
+}
+search.addEventListener('widget-selected', async (e) => {
+  const id = e.detail.id
+  const cmd = `cartograph install ${id}`
+  try {
+    await navigator.clipboard.writeText(cmd)
+    searchHint.textContent = `Copied: ${cmd}`
+  } catch {
+    searchHint.textContent = `Run: ${cmd}`
+  }
+  searchHint.hidden = false
+})
+
 initScrollReveal()
 attachSpotlightAll('[data-spotlight]', { unit: 'px' })
-
-const particleCanvas = document.getElementById('hero-particles')
-if (particleCanvas) {
-  const field = createParticleField(particleCanvas, {
-    count: 32,
-    minSize: 4, maxSize: 16,
-    speed: 0.15, drift: 0.04,
-    minAlpha: 0.18, maxAlpha: 0.55,
-  })
-  field.start()
-  window.addEventListener('resize', () => field.resize())
-}
