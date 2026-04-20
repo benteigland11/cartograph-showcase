@@ -6,11 +6,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
-  <link rel="stylesheet" href="./main.css" />
+  <link rel="stylesheet" href="../main.css" />
+  <link rel="stylesheet" href="./lab.css" />
 </head>
 <body>
   <site-nav>
-    <a slot="brand" href="#top" class="brand-link" aria-label="Cartograph home">
+    <a slot="brand" href="../" class="brand-link" aria-label="Cartograph home">
       <svg viewBox="0 0 200 200" width="28" height="28" aria-hidden="true">
         <path d="M 125,45 A 60 60 0 1 0 125,155" fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round"/>
         <rect x="88" y="88" width="24" height="24" rx="4" fill="#FFEA00"/>
@@ -19,31 +20,24 @@
       </svg>
       <span>Cartograph</span>
     </a>
-    <a slot="links" href="#search">Try it</a>
-    <a slot="links" href="#install">Install</a>
-    <a slot="links" href="./lab/">Lab</a>
+    <a slot="links" href="../#search">Try it</a>
+    <a slot="links" href="../#install">Install</a>
+    <a slot="links" href="./" aria-current="page">Lab</a>
     <a slot="links" href="https://github.com/benteigland11/Cartograph">GitHub</a>
   </site-nav>
 
-  <main id="top"></main>
+  <header class="lab-header">
+    <p class="section-eyebrow">The Lab</p>
+    <h1 class="lab-title">Wait, that's a widget?</h1>
+    <p class="lab-lede">Each panel below is one Cartograph widget doing what it does. None of them know about each other. All of them are <code>cartograph install</code>-able.</p>
+  </header>
 
-  <site-footer>
-    <div slot="brand">Cartograph</div>
-    <div slot="columns">
-      <div>
-        <strong>Project</strong><br>
-        <a href="https://github.com/benteigland11/Cartograph">GitHub</a><br>
-        <a href="https://github.com/benteigland11/cartograph-showcase">This site's source</a>
-      </div>
-      <div>
-        <strong>Made by</strong><br>
-        <a href="https://github.com/benteigland11">benteigland11</a>
-      </div>
-    </div>
-    <span slot="legal">MIT licensed.</span>
-    <span slot="attribution">Composed of widgets, all the way down.</span>
-  </site-footer>
+  <main id="lab-grid" class="lab-grid"></main>
 
-  <script type="module" src="./main.js"></script>
+  <footer class="lab-footer">
+    <p>Composed from <strong id="composed-count">…</strong> widgets, all installable.</p>
+  </footer>
+
+  <script type="module" src="./lab.js"></script>
 </body>
 </html>

@@ -24,7 +24,7 @@ injectSpotlightStyles()
 
 applyMetaTags({
   title: 'Cartograph — code worth keeping',
-  description: 'A widget library manager for code you actually want to reuse. Search, install, validate, version, share.',
+  description: 'Code worth keeping. Write it once, iterate. A widget library manager for the code you actually want to reuse.',
   url: 'https://benteigland11.github.io/cartograph-showcase/',
   image: 'https://benteigland11.github.io/cartograph-showcase/og.png',
   siteName: 'Cartograph',
@@ -47,8 +47,8 @@ main.innerHTML = `
   <div class="hero-stage" data-spotlight>
   <hero-section layout="split">
     <span slot="eyebrow">Cartograph · v1.0</span>
-    <span slot="headline">Code worth keeping. Install it once.</span>
-    <span slot="subhead">A widget library manager for code you actually want to reuse. Search the catalog, install with one command, version on every change.</span>
+    <span slot="headline">Code worth keeping. Write it once, iterate.</span>
+    <span slot="subhead">A widget library manager for the code you actually want to reuse. Extract it once, version every change, share across every project.</span>
     <a slot="primary" class="btn btn-primary" href="https://github.com/benteigland11/Cartograph">Get started →</a>
     <a slot="secondary" class="btn btn-secondary" href="#features">See features</a>
     <terminal-mock

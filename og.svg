@@ -24,7 +24,7 @@
   <g transform="translate(450, 230)">
     <text x="0" y="0" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="22" letter-spacing="2" fill="#FFC300" text-transform="uppercase">CARTOGRAPH</text>
     <text x="0" y="80" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="68" fill="url(#title)" letter-spacing="-1.5">Code worth keeping.</text>
-    <text x="0" y="160" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="68" fill="url(#title)" letter-spacing="-1.5">Install it once.</text>
+    <text x="0" y="160" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="68" fill="url(#title)" letter-spacing="-1.5">Write it once, iterate.</text>
     <text x="0" y="230" font-family="JetBrains Mono, ui-monospace, monospace" font-size="22" fill="#8a90a0">$ cartograph install &lt;widget-id&gt;</text>
   </g>
 </svg>
