@@ -1,0 +1,97 @@
+.about-article {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.25rem, 5vw, 2rem) 4rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--color-fg-muted);
+}
+
+.about-hero {
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.about-hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin: 0.25rem 0 0;
+  color: var(--color-fg);
+  background: linear-gradient(180deg, var(--color-fg), var(--color-fg-muted));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.about-article section {
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+}
+
+.about-article h2 {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--color-fg);
+  margin: 0 0 1rem;
+}
+
+.about-article p {
+  margin: 0 0 1rem;
+}
+
+.about-article p strong, .about-article li strong {
+  color: var(--color-fg);
+  font-weight: 600;
+}
+
+.about-article a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.about-article code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--color-accent);
+  background: var(--color-bg-elevated);
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.about-article code-block {
+  display: block;
+  margin: 1.5rem 0;
+}
+
+.principles {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.principles li {
+  padding: 0.875rem 1.125rem;
+  background: var(--color-bg-elevated);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.about-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.about-cta .btn { text-decoration: none; }
+.about-cta .btn:hover { text-decoration: none; }

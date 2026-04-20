@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="../main.css" />
+  <link rel="stylesheet" href="./about.css" />
+</head>
+<body>
+  <site-nav>
+    <a slot="brand" href="../" class="brand-link" aria-label="Cartograph home">
+      <svg viewBox="0 0 200 200" width="28" height="28" aria-hidden="true">
+        <path d="M 125,45 A 60 60 0 1 0 125,155" fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round"/>
+        <rect x="88" y="88" width="24" height="24" rx="4" fill="#FFEA00"/>
+        <rect x="135" y="92" width="16" height="16" rx="3" fill="#FFC300"/>
+        <rect x="175" y="95" width="10" height="10" rx="2" fill="#FF9500"/>
+      </svg>
+      <span>Cartograph</span>
+    </a>
+    <a slot="links" href="../#search">Try it</a>
+    <a slot="links" href="../lab/">Lab</a>
+    <a slot="links" href="./" aria-current="page">About</a>
+    <a slot="links" href="https://github.com/benteigland11/Cartograph">GitHub</a>
+  </site-nav>
+
+  <article class="about-article">
+    <header class="about-hero" data-reveal>
+      <p class="section-eyebrow">About</p>
+      <h1>The hardest line of code to delete is the one you'll write again next month.</h1>
+    </header>
+
+    <section data-reveal>
+      <h2>The pattern</h2>
+      <p>Every developer keeps a private graveyard of useful code: a retry helper, a slug generator, a date parser, an env loader. These functions get rewritten across projects, drift slowly out of sync, and quietly accumulate the same bugs in three different repos at once.</p>
+      <p>The standard answer is "publish a package." But packages are heavy. A real package needs a name, a registry account, a versioning scheme, a CI pipeline, a license, a changelog, a README, and a willingness to maintain something forever. For a 30-line function you're not sure you'll keep, that overhead is wildly disproportionate.</p>
+      <p>So most of this code never escapes its origin repo. It just gets copied.</p>
+    </section>
+
+    <section data-reveal>
+      <h2>The fix</h2>
+      <p>Cartograph treats reusable code as a <strong>widget</strong>: a self-contained directory with source, tests, an example, and metadata. The directory <em>is</em> the contract. There's no build, no bundler, no package.json gymnastics.</p>
+      <p>Every widget passes through the same validator: tests run, contamination scan blocks project-specific names, coverage is enforced, examples must execute. If it validates, it ships.</p>
+      <code-block lang="shell" code="$ cartograph search retry
+$ cartograph install universal-retry-backoff-python
+✓ installed → cg/universal-retry-backoff-python  (v1.2.0)
+$ # done. import it from cg/ and ship."></code-block>
+    </section>
+
+    <section data-reveal>
+      <h2>The principles</h2>
+      <ul class="principles">
+        <li><strong>One widget, one job.</strong> No utility belts. No frameworks pretending to be widgets.</li>
+        <li><strong>No widget depends on another widget.</strong> If you need shared logic, copy it in. The point is portability.</li>
+        <li><strong>Every variation point is a parameter.</strong> No hardcoded thresholds, colors, sizes, or behaviors.</li>
+        <li><strong>Every dependency is declared.</strong> The widget is its own contract — read the metadata, know what you're getting.</li>
+        <li><strong>Validation is a gate, not a suggestion.</strong> A widget that doesn't pass doesn't ship.</li>
+      </ul>
+    </section>
+
+    <section data-reveal>
+      <h2>This site</h2>
+      <p>Everything you've seen — the hero, the search, the lab demos, the navigation, the footer, the toast notifications, the 3D tilt cards, the magnetic buttons — is composed entirely from widgets in the <a href="https://github.com/benteigland11/cartograph-showcase/tree/main/cg">cg/ folder</a> of this repo. Each was installed with <code>cartograph install</code>, not written from scratch.</p>
+      <p>That's the pitch. Code worth keeping. Write it once, iterate.</p>
+    </section>
+
+    <footer class="about-cta" data-reveal>
+      <a href="https://github.com/benteigland11/Cartograph" class="btn btn-primary">View on GitHub →</a>
+      <a href="../#search" class="btn btn-secondary">Try the live registry</a>
+    </footer>
+  </article>
+
+  <site-footer>
+    <div slot="brand">Cartograph</div>
+    <div slot="columns">
+      <div>
+        <strong>Project</strong><br>
+        <a href="https://github.com/benteigland11/Cartograph">GitHub</a><br>
+        <a href="https://github.com/benteigland11/cartograph-showcase">Source</a>
+      </div>
+      <div>
+        <strong>Pages</strong><br>
+        <a href="../">Home</a><br>
+        <a href="../lab/">Lab</a>
+      </div>
+    </div>
+    <span slot="legal">MIT licensed.</span>
+    <span slot="attribution">Composed of widgets, all the way down.</span>
+  </site-footer>
+
+  <script type="module" src="./about.js"></script>
+</body>
+</html>
