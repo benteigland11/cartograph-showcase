@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="../main.css" />
+  <link rel="stylesheet" href="./galaxy.css" />
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://esm.sh/three@0.160.0",
+      "three/addons/controls/OrbitControls.js": "https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js"
+    }
+  }
+  </script>
+</head>
+<body class="galaxy-body">
+  <site-nav>
+    <a slot="brand" href="../" class="brand-link" aria-label="Cartograph home">
+      <svg viewBox="0 0 200 200" width="28" height="28" aria-hidden="true">
+        <path d="M 125,45 A 60 60 0 1 0 125,155" fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round"/>
+        <rect x="88" y="88" width="24" height="24" rx="4" fill="#FFEA00"/>
+        <rect x="135" y="92" width="16" height="16" rx="3" fill="#FFC300"/>
+        <rect x="175" y="95" width="10" height="10" rx="2" fill="#FF9500"/>
+      </svg>
+      <span>Cartograph</span>
+    </a>
+    <span slot="links">
+      <a href="../#features">Features</a>
+      <a href="../#search">Search</a>
+      <a href="./" aria-current="page">Galaxy</a>
+      <a href="https://github.com/benteigland11/Cartograph">GitHub</a>
+    </span>
+  </site-nav>
+
+  <main class="galaxy-main">
+    <canvas id="galaxy-canvas" aria-label="3D widget galaxy"></canvas>
+
+    <div class="galaxy-overlay">
+      <header class="galaxy-header">
+        <p class="section-eyebrow">The Registry</p>
+        <h1 class="galaxy-title">A galaxy of widgets.</h1>
+        <p class="galaxy-lede">Every cube is a widget in the live cloud registry. Color by domain. Size by install count. Drag to orbit. Click a cube to inspect.</p>
+      </header>
+
+      <aside class="galaxy-legend" id="legend"></aside>
+
+      <aside class="galaxy-detail" id="detail" hidden>
+        <button class="detail-close" type="button" aria-label="Close">×</button>
+        <p class="detail-id" id="detail-id"></p>
+        <p class="detail-meta" id="detail-meta"></p>
+        <p class="detail-desc" id="detail-desc"></p>
+        <code-block id="detail-code" lang="shell"></code-block>
+      </aside>
+
+      <p class="galaxy-status" id="status">Loading the registry…</p>
+    </div>
+  </main>
+
+  <script type="module" src="./galaxy.js"></script>
+</body>
+</html>
