@@ -13,7 +13,14 @@ const DEFAULTS = {
   springLength: 90,
   springStrength: 0.02,
   centerStrength: 0.005,
-  damping: 0.86,
+  damping: 0.82,
+  maxVelocity: 6,
+  initialSpread: 0.8,
+  initialJitter: 1.5,
+  edgeWidth: 1,
+  edgeWidthActive: 1.5,
+  dimOpacity: 0.25,
+  pickRadiusFactor: 2,
   showLabels: true,
 }
 
@@ -40,15 +47,19 @@ export function createGraphViewer(canvas, options = {}) {
   }
 
   function setData(rawNodes, rawEdges) {
+    const w = width || canvas.clientWidth || canvas.width || 400
+    const h = height || canvas.clientHeight || canvas.height || 300
+    const j = opts.initialJitter
     nodes = rawNodes.map((n, i) => ({
       id: n.id ?? String(i),
       label: n.label ?? n.id ?? '',
       color: n.color ?? opts.nodeColor,
       weight: n.weight ?? 1,
       data: n,
-      x: n.x ?? rand(width * 0.3, width * 0.7),
-      y: n.y ?? rand(height * 0.3, height * 0.7),
-      vx: 0, vy: 0,
+      x: n.x ?? rand(w * (0.5 - opts.initialSpread / 2), w * (0.5 + opts.initialSpread / 2)),
+      y: n.y ?? rand(h * (0.5 - opts.initialSpread / 2), h * (0.5 + opts.initialSpread / 2)),
+      vx: rand(-j, j),
+      vy: rand(-j, j),
       r: opts.baseRadius + Math.sqrt(n.weight ?? 1) * opts.radiusScale * 0.4,
     }))
     const idIndex = new Map(nodes.map((n, i) => [n.id, i]))
@@ -64,6 +75,7 @@ export function createGraphViewer(canvas, options = {}) {
     }
   }
 
+  resize()
   setData(opts.nodes, opts.edges)
 
   function step() {
@@ -84,6 +96,12 @@ export function createGraphViewer(canvas, options = {}) {
       }
       a.vx = (a.vx + fx) * opts.damping
       a.vy = (a.vy + fy) * opts.damping
+      const maxV = opts.maxVelocity
+      const speed = Math.sqrt(a.vx * a.vx + a.vy * a.vy)
+      if (speed > maxV) {
+        a.vx = (a.vx / speed) * maxV
+        a.vy = (a.vy / speed) * maxV
+      }
     }
     for (const e of edges) {
       const a = nodes[e.source], b = nodes[e.target]
@@ -112,7 +130,7 @@ export function createGraphViewer(canvas, options = {}) {
       const a = nodes[e.source], b = nodes[e.target]
       const isActive = activeNeighbors && (e.source === hovered || e.target === hovered)
       ctx.strokeStyle = isActive ? opts.edgeColorActive : opts.edgeColor
-      ctx.lineWidth = isActive ? 1.5 : 1
+      ctx.lineWidth = isActive ? opts.edgeWidthActive : opts.edgeWidth
       ctx.beginPath()
       ctx.moveTo(a.x, a.y)
       ctx.lineTo(b.x, b.y)
@@ -121,7 +139,7 @@ export function createGraphViewer(canvas, options = {}) {
     for (let i = 0; i < nodes.length; i++) {
       const n = nodes[i]
       const dim = activeNeighbors && i !== hovered && !activeNeighbors.has(i)
-      ctx.globalAlpha = dim ? 0.25 : 1
+      ctx.globalAlpha = dim ? opts.dimOpacity : 1
       ctx.fillStyle = n.color
       ctx.beginPath()
       ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2)
@@ -148,7 +166,8 @@ export function createGraphViewer(canvas, options = {}) {
     for (let i = nodes.length - 1; i >= 0; i--) {
       const n = nodes[i]
       const dx = n.x - x, dy = n.y - y
-      if (dx * dx + dy * dy <= n.r * n.r * 4) return i
+      const pickR = n.r * opts.pickRadiusFactor
+      if (dx * dx + dy * dy <= pickR * pickR) return i
     }
     return null
   }
@@ -195,8 +214,6 @@ export function createGraphViewer(canvas, options = {}) {
   canvas.addEventListener('pointercancel', onPointerUp)
   canvas.addEventListener('pointerleave', onPointerLeave)
 
-  resize()
-
   return {
     start() {
       if (running) return
@@ -210,6 +227,12 @@ export function createGraphViewer(canvas, options = {}) {
     },
     setData,
     resize,
+    kick(magnitude = 4) {
+      for (const n of nodes) {
+        n.vx += rand(-magnitude, magnitude)
+        n.vy += rand(-magnitude, magnitude)
+      }
+    },
     destroy() {
       this.stop()
       canvas.removeEventListener('pointerdown', onPointerDown)

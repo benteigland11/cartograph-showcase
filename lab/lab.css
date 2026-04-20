@@ -110,6 +110,7 @@
 /* tilt demo inner card */
 .tilt-content {
   width: min(80%, 18rem);
+  margin: 0 auto;
   padding: 1.5rem 1.75rem;
   background: linear-gradient(135deg, #1a1d28, #0e1018);
   border: 1px solid var(--color-border);
@@ -153,6 +154,14 @@
   font-size: 0.8rem;
   color: var(--color-fg-muted);
   white-space: nowrap;
+  user-select: text;
+  cursor: text;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.marquee-pill:hover {
+  background: rgba(255, 195, 0, 0.08);
+  color: var(--color-fg);
+  border-color: var(--color-accent);
 }
 .marquee-pill .dot {
   width: 6px; height: 6px;

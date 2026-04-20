@@ -69,7 +69,7 @@ const marqueePanel = panel({
   id: 'frontend-marquee-javascript',
   desc: 'Infinite scrolling row of anything.',
   stageHtml: `
-    <marquee-row speed="50" gap="1.25rem" style="width: 100%;">
+    <marquee-row speed="60" gap="1.25rem" pause-on-hover style="width: 100%;">
       ${marqueeItems.map((i) => `<span class="marquee-pill"><span class="dot"></span>${i}</span>`).join('')}
     </marquee-row>
   `,
@@ -146,6 +146,9 @@ requestAnimationFrame(() => {
     repulsion: 1200,
     springLength: 70,
     centerStrength: 0.008,
+    initialSpread: 0.95,
+    maxVelocity: 4,
+    damping: 0.78,
   })
   graph.start()
 
