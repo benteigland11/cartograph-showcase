@@ -3,21 +3,28 @@ import { FeatureGrid, FeatureCard, defineFeatureGrid } from '../src/feature_grid
 defineFeatureGrid('feature-grid', 'feature-card')
 
 describe('FeatureGrid', () => {
-  test('attaches shadow root', () => {
+  beforeEach(() => { document.head.innerHTML = ''; document.body.innerHTML = '' })
+
+  test('does not attach a shadow root (light DOM grid)', () => {
     const el = document.createElement('feature-grid')
-    expect(el.shadowRoot).toBeTruthy()
+    expect(el.shadowRoot).toBe(null)
   })
 
-  test('renders a single default slot', () => {
-    const el = document.createElement('feature-grid')
-    const slots = el.shadowRoot.querySelectorAll('slot')
-    expect(slots.length).toBe(1)
-    expect(slots[0].getAttribute('name')).toBe(null)
+  test('appending injects grid styles once', () => {
+    const a = document.createElement('feature-grid')
+    document.body.appendChild(a)
+    const b = document.createElement('feature-grid')
+    document.body.appendChild(b)
+    expect(document.querySelectorAll('#feature-grid-styles').length).toBe(1)
   })
 
-  test('renders a grid container', () => {
-    const el = document.createElement('feature-grid')
-    expect(el.shadowRoot.querySelector('div')).toBeTruthy()
+  test('children of grid stay in light DOM', () => {
+    const grid = document.createElement('feature-grid')
+    const card = document.createElement('feature-card')
+    grid.appendChild(card)
+    document.body.appendChild(grid)
+    expect(grid.children.length).toBe(1)
+    expect(grid.firstElementChild).toBe(card)
   })
 })
 

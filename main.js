@@ -81,15 +81,15 @@ main.innerHTML = `
     <div class="stats-row" data-reveal>
       <div class="stat">
         <stats-counter id="stat-widgets" target="0" duration="1800"></stats-counter>
-        <span class="stat-label">widgets in the registry</span>
+        <span class="stat-label" id="label-widgets" data-singular="widget in the registry" data-plural="widgets in the registry">widgets in the registry</span>
       </div>
       <div class="stat">
         <stats-counter id="stat-owners" target="0" duration="1800"></stats-counter>
-        <span class="stat-label">owners contributing</span>
+        <span class="stat-label" id="label-owners" data-singular="owner contributing" data-plural="owners contributing">owners contributing</span>
       </div>
       <div class="stat">
         <stats-counter id="stat-installs" target="0" duration="1800"></stats-counter>
-        <span class="stat-label">total installs</span>
+        <span class="stat-label" id="label-installs" data-singular="total install" data-plural="total installs">total installs</span>
       </div>
     </div>
     <div class="freshest" data-reveal hidden>
@@ -257,14 +257,21 @@ search.addEventListener('widget-selected', (e) => {
 ;(async () => {
   try {
     const stats = await registry.getRegistryStats()
-    document.getElementById('stat-widgets').target = stats.total_widgets ?? 0
-    document.getElementById('stat-owners').target = stats.total_owners ?? 0
-    document.getElementById('stat-installs').target = stats.total_installs ?? 0
+    setStat('widgets', stats.total_widgets ?? 0)
+    setStat('owners', stats.total_owners ?? 0)
+    setStat('installs', stats.total_installs ?? 0)
     renderFreshest(stats.freshest ?? [])
   } catch (err) {
     console.error('registry stats fetch failed', err)
   }
 })()
+
+function setStat(name, value) {
+  const counter = document.getElementById(`stat-${name}`)
+  const label = document.getElementById(`label-${name}`)
+  if (counter) counter.target = value
+  if (label) label.textContent = value === 1 ? label.dataset.singular : label.dataset.plural
+}
 
 function renderFreshest(items) {
   const slot = document.getElementById('freshest-list')

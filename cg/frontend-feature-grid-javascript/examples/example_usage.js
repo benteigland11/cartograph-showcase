@@ -18,5 +18,5 @@ grid.innerHTML = `
 `
 document.body.appendChild(grid)
 
-console.log('grid rendered:', !!grid.shadowRoot.querySelector('div'))
+console.log('grid styles injected:', !!document.getElementById('feature-grid-styles'))
 console.log('cards:', grid.querySelectorAll('feature-card').length)

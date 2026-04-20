@@ -2,7 +2,7 @@
   "meta": {
     "id": "frontend-feature-grid-javascript",
     "name": "Feature Grid",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "domain": "frontend",
     "tags": [
       "features",
@@ -27,7 +27,7 @@
   },
   "validation": {
     "engine_version": 1,
-    "validated_at": "2026-04-20T03:33:52.173736+00:00",
+    "validated_at": "2026-04-20T03:42:54.094301+00:00",
     "runtime": "node 22.22.0"
   }
 }
