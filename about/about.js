@@ -4,7 +4,9 @@ import { defineSiteNav } from '../cg/frontend-nav-bar-javascript/src/nav_bar.js'
 import { defineSiteFooter } from '../cg/frontend-footer-javascript/src/footer.js'
 import { defineCodeBlock } from '../cg/frontend-code-block-javascript/src/code_block.js'
 import { initScrollReveal, injectRevealStyles } from '../cg/frontend-scroll-reveal-javascript/src/scroll_reveal.js'
-import { markReady } from '../cg/frontend-page-load-fade-javascript/src/page_load_fade.js'
+import { markReady, useManualScrollRestoration } from '../cg/frontend-page-load-fade-javascript/src/page_load_fade.js'
+
+useManualScrollRestoration()
 
 applyTokens({
   overrides: {
