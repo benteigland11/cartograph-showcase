@@ -108,3 +108,33 @@ describe('whenReady', () => {
     expect(ran).toBe(true)
   })
 })
+
+describe('useManualScrollRestoration', () => {
+  let originalScrollTo
+  let scrolledTo
+  beforeEach(() => {
+    history.scrollRestoration = 'auto'
+    originalScrollTo = window.scrollTo
+    scrolledTo = null
+    window.scrollTo = (x, y) => { scrolledTo = [x, y] }
+  })
+  afterEach(() => { window.scrollTo = originalScrollTo })
+
+  test('sets history.scrollRestoration to manual', async () => {
+    const { useManualScrollRestoration } = await import('../src/page_load_fade.js')
+    useManualScrollRestoration()
+    expect(history.scrollRestoration).toBe('manual')
+  })
+
+  test('scrolls to 0,0 by default', async () => {
+    const { useManualScrollRestoration } = await import('../src/page_load_fade.js')
+    useManualScrollRestoration()
+    expect(scrolledTo).toEqual([0, 0])
+  })
+
+  test('honors scrollNow=false', async () => {
+    const { useManualScrollRestoration } = await import('../src/page_load_fade.js')
+    useManualScrollRestoration({ scrollNow: false })
+    expect(scrolledTo).toBe(null)
+  })
+})

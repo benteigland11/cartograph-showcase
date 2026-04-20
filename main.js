@@ -12,8 +12,10 @@ import { defineWidgetSearch } from './cg/frontend-widget-search-javascript/src/w
 import { defineWidgetDetailCard } from './cg/frontend-widget-detail-card-javascript/src/widget_detail_card.js'
 import { showToast } from './cg/frontend-toast-javascript/src/toast.js'
 import { defineStatsCounter } from './cg/frontend-stats-counter-javascript/src/stats_counter.js'
-import { markReady } from './cg/frontend-page-load-fade-javascript/src/page_load_fade.js'
+import { markReady, useManualScrollRestoration } from './cg/frontend-page-load-fade-javascript/src/page_load_fade.js'
 import { createCartographRegistryClient } from './cg/data-cartograph-registry-client-javascript/src/cartograph_registry_client.js'
+
+useManualScrollRestoration()
 
 const registry = createCartographRegistryClient()
 

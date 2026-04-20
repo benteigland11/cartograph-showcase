@@ -9,7 +9,9 @@ import { defineSpringDrag } from '../cg/frontend-spring-drag-javascript/src/spri
 import { defineMagneticButton } from '../cg/frontend-magnetic-button-javascript/src/magnetic_button.js'
 import { defineTextScramble } from '../cg/frontend-text-scramble-javascript/src/text_scramble.js'
 import { defineActivityHeatmap } from '../cg/frontend-activity-heatmap-javascript/src/activity_heatmap.js'
-import { markReady } from '../cg/frontend-page-load-fade-javascript/src/page_load_fade.js'
+import { markReady, useManualScrollRestoration } from '../cg/frontend-page-load-fade-javascript/src/page_load_fade.js'
+
+useManualScrollRestoration()
 
 applyTokens({
   overrides: {

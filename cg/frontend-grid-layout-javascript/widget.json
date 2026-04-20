@@ -1,18 +1,18 @@
 {
   "meta": {
-    "id": "frontend-page-load-fade-javascript",
-    "name": "Page Load Fade",
-    "version": "1.1.0",
+    "id": "frontend-grid-layout-javascript",
+    "name": "Grid Layout",
+    "version": "1.0.0",
     "domain": "frontend",
     "tags": [
-      "fouc",
-      "page-load",
-      "fade-in",
-      "preflight",
-      "ux"
+      "layout",
+      "grid",
+      "responsive",
+      "primitive",
+      "auto-fit"
     ]
   },
-  "description": "Kill flash-of-unstyled-content. buildLoadFadeCss(opts) returns a string for inlining in head. markReady() adds the ready class so body fades in. Configurable bg, fg, font, duration, ready class, color scheme.",
+  "description": "Responsive auto-fit grid. Items size to fit a configurable minimum (--grid-min) and rewrap as the viewport changes. Configurable gap and align via CSS custom properties. Light DOM.",
   "tech_stack": {
     "language": "javascript",
     "dependencies": [
@@ -27,7 +27,7 @@
   },
   "validation": {
     "engine_version": 1,
-    "validated_at": "2026-04-20T04:02:35.904057+00:00",
+    "validated_at": "2026-04-20T04:00:53.039756+00:00",
     "runtime": "node 22.22.0"
   }
 }

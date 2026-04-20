@@ -46,3 +46,12 @@ export function whenReady(callback, { event = 'load' } = {}) {
     window.addEventListener(event, callback, { once: true })
   }
 }
+
+export function useManualScrollRestoration({ scrollNow = true } = {}) {
+  if (typeof history !== 'undefined' && 'scrollRestoration' in history) {
+    history.scrollRestoration = 'manual'
+  }
+  if (scrollNow && typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+    window.scrollTo(0, 0)
+  }
+}
