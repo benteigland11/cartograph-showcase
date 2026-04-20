@@ -9,6 +9,8 @@ import { defineTerminalMock } from './cg/frontend-terminal-mock-javascript/src/t
 import { initScrollReveal, injectRevealStyles } from './cg/frontend-scroll-reveal-javascript/src/scroll_reveal.js'
 import { attachSpotlightAll, injectSpotlightStyles } from './cg/frontend-cursor-spotlight-javascript/src/cursor_spotlight.js'
 import { defineWidgetSearch } from './cg/frontend-widget-search-javascript/src/widget_search.js'
+import { defineWidgetDetailCard } from './cg/frontend-widget-detail-card-javascript/src/widget_detail_card.js'
+import { showToast } from './cg/frontend-toast-javascript/src/toast.js'
 
 applyTokens({
   overrides: {
@@ -40,6 +42,7 @@ defineFeatureGrid('feature-grid', 'feature-card')
 defineCodeBlock('code-block')
 defineTerminalMock('terminal-mock')
 defineWidgetSearch('widget-search')
+defineWidgetDetailCard('widget-detail-card')
 
 const main = document.getElementById('top')
 
@@ -108,9 +111,9 @@ $ cartograph install universal-retry-backoff-python
   <section id="search" class="bounded">
     <p class="section-eyebrow" data-reveal>Try it now</p>
     <h2 class="section-title" data-reveal style="--reveal-delay: 60ms">Search the live registry.</h2>
-    <p class="section-lede" data-reveal style="--reveal-delay: 120ms">This input is hitting <code style="font-family: var(--font-mono); color: var(--color-accent)">api.cartograph.tools</code> in real time. Type a keyword. Click a result to copy its install command.</p>
+    <p class="section-lede" data-reveal style="--reveal-delay: 120ms">This input is hitting <code style="font-family: var(--font-mono); color: var(--color-accent)">api.cartograph.tools</code> in real time. Type a keyword. Click a result for a detail card with a one-click install command.</p>
     <widget-search data-reveal style="--reveal-delay: 180ms" id="live-search"></widget-search>
-    <p class="search-hint" id="search-hint" data-reveal style="--reveal-delay: 240ms" hidden></p>
+    <div class="detail-slot" id="detail-slot" data-reveal style="--reveal-delay: 240ms" hidden></div>
   </section>
 
   <hr class="divider" />
@@ -182,25 +185,41 @@ for (const id of widgetIds) {
 }
 
 const search = document.getElementById('live-search')
-const searchHint = document.getElementById('search-hint')
+const detailSlot = document.getElementById('detail-slot')
+const lastResults = new Map()
+
 search.fetcher = async (query, signal) => {
   const url = new URL('https://api.cartograph.tools/v1/widgets/search')
   url.searchParams.set('q', query)
   const res = await fetch(url, { signal })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   const data = await res.json()
-  return data.widgets ?? []
+  const widgets = data.widgets ?? []
+  lastResults.clear()
+  for (const w of widgets) lastResults.set(w.id, w)
+  return widgets
 }
-search.addEventListener('widget-selected', async (e) => {
-  const id = e.detail.id
-  const cmd = `cartograph install ${id}`
-  try {
-    await navigator.clipboard.writeText(cmd)
-    searchHint.textContent = `Copied: ${cmd}`
-  } catch {
-    searchHint.textContent = `Run: ${cmd}`
+
+search.addEventListener('search-error', (e) => {
+  showToast(`Search failed: ${e.detail.error?.message ?? 'unknown'}`, { variant: 'error' })
+})
+
+search.addEventListener('widget-selected', (e) => {
+  const widget = lastResults.get(e.detail.id) ?? { id: e.detail.id }
+  let card = detailSlot.querySelector('widget-detail-card')
+  if (!card) {
+    card = document.createElement('widget-detail-card')
+    card.addEventListener('detail-close', () => { detailSlot.hidden = true })
+    card.addEventListener('install-copied', (ev) => {
+      showToast(ev.detail.ok ? 'Install command copied' : 'Copy blocked — run it manually', {
+        variant: ev.detail.ok ? 'success' : 'error',
+      })
+    })
+    detailSlot.appendChild(card)
   }
-  searchHint.hidden = false
+  card.widget = widget
+  detailSlot.hidden = false
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 })
 
 initScrollReveal()

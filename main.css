@@ -115,16 +115,10 @@ section.bounded > * {
   .comparison { grid-template-columns: minmax(0, 1fr); }
 }
 
-.search-hint {
+.detail-slot {
   margin: var(--space-4) 0 0;
-  padding: var(--space-3) var(--space-4);
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-accent);
-  border-radius: var(--radius-md);
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--color-fg);
 }
+.detail-slot[hidden] { display: none; }
 
 .composed-list {
   list-style: none;

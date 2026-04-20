@@ -1,12 +1,23 @@
-/**
- * Example usage of Widget Detail Card.
- *
- * This file must run and exit cleanly with no user input, no network calls,
- * and no external services or API keys. Use fake/hardcoded data to demonstrate the API.
- * The widget's own declared dependencies are fine - the validator installs them first.
- */
-import { widget_detail_card } from '../src/widget_detail_card.js'
+import './_setup_dom.js'
+import { defineWidgetDetailCard } from '../src/widget_detail_card.js'
 
-// [TODO] Replace with a realistic call using fake data
-const result = widget_detail_card('hello')
-console.log(`Result: ${result}`)
+defineWidgetDetailCard('widget-detail-card')
+
+const card = document.createElement('widget-detail-card')
+document.body.appendChild(card)
+card.widget = {
+  id: 'frontend-example-javascript',
+  description: 'A sample widget shown in the detail card.',
+  version: '1.0.0',
+  language: 'javascript',
+  domain: 'frontend',
+  owner: 'someone',
+  install_count: 42,
+  rating: 4.5,
+  dependencies: ['some-dep>=1.0.0'],
+}
+
+console.log('id rendered:', card.shadowRoot.querySelector('.id').textContent)
+console.log('install command:', card.shadowRoot.querySelector('.cmd').textContent)
+console.log('deps shown:', !card.shadowRoot.querySelector('.deps').hidden)
+card.remove()
